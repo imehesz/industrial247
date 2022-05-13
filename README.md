@@ -1,4 +1,4 @@
-# :// Inndustrial 247 Station
+# :// Industrial 247 Station
 
 The only 24/7 Industrial Music Station online since 2017.
 
