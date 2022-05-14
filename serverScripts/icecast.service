@@ -1,0 +1,12 @@
+[Unit]
+Description=Icecast Streaming Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/PATH/TO/icecast/icecastStart.sh
+Restart=on.abort
+
+[Install]
+WantedBy=multi-user.target

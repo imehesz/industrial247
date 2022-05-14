@@ -1,0 +1,19 @@
+<ezstream>
+    <url>URL-TO-ICECAST-MOUNT_POINT.mp3</url>
+
+    <shuffle>1</shuffle>
+
+    <sourceuser>SOURCEUSER</sourceuser>
+    <sourcepassword>SOURCEPASSWORD</sourcepassword>
+    <format>MP3</format>
+    <filename>PATH/TO/PLAYLIST/playlist.m3u</filename>
+    <stream_once>0</stream_once>
+    <svrinfoname>Industrial 247 Station</svrinfoname>
+    <svrinfourl>https://Industrial247Station.com</svrinfourl>
+    <svrinfogenre>Industrial</svrinfogenre>
+    <svrinfodescription>Industrial 247 Station</svrinfodescription>
+    <svrinfobitrate>128</svrinfobitrate>
+    <svrinfochannels>2</svrinfochannels>
+    <svrinfosamplerate>44100</svrinfosamplerate>
+    <svrinfopublic>0</svrinfopublic>
+</ezstream>

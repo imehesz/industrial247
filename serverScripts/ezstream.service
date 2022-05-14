@@ -1,0 +1,12 @@
+[Unit]
+Description=EZstream Streaming Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/PATH/TO/ezstream/ezstreamStart.sh
+Restart=on.abort
+
+[Install]
+WantedBy=multi-user.target
