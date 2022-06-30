@@ -7,32 +7,86 @@
 
 		<!--Bootstrap CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/player.css?v=12">
+		<link rel="stylesheet" href="css/style.css?v=12">
 		<title>:// Industrial 247</title>
 
 	</head>
 	<body class="text-center">
+
+		<audio id="music" preload="all" src="">
+		</audio>
+
+
 		<video autoplay muted loop id="myVideo">
   		<source src="media/2.mp4" type="video/mp4">
   		Your browser does not support HTML5 video.
 		</video>
+		<section class="static-background"></section>
 
 		<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
           <h3 class="masthead-brand"><a href="/">:// Industrial 247</a></h3>
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link" target="_blank" href="https://goo.gl/y7acwz">LISTEN</a>
-						<a class="nav-link" target="_blank" href="https://industrial247.blogspot.com/">Blog</a>
-						<a class="nav-link" target="_blank" href="https://goo.gl/Pz3mPN">Artists</a>
-            <a class="nav-link" target="_blank" href="https://goo.gl/WnrKfR">Contact</a>
+            	<a class="nav-link" target="_blank" href="https://goo.gl/y7acwz">Mixes</a>
+		<a class="nav-link" target="_blank" href="https://industrial247.blogspot.com/">Blog</a>
+		<a class="nav-link" target="_blank" href="https://goo.gl/Pz3mPN">Artists</a>
+            	<a class="nav-link" target="_blank" href="https://goo.gl/WnrKfR">Contact</a>
           </nav>
         </div>
       </header>
 
       <main role="main" class="inner cover">
         <p class="lead">
-					<img src="img/simple-logo-web.svg" class="img-fluid" alt="Responsive image">
+	<!-- <img src="img/simple-logo-web.svg" class="img-fluid" alt="Responsive image"> -->
+
+
+
+
+    <main class="player">
+        <div class="header">
+        </div><!--  header  -->
+        <img src="./img/i247-simple-logo-web-centered.png" alt="album art" class="art"><!--  art  -->
+        <div class="info">
+            <h1 id="bandName">---</h1>
+            <p id="songTitle">...</p>
+        </div><!--  info  -->
+        <ul class="buttons">
+          <a id="btnPlay" href="#" class="button button-lg">
+                <i class="fas fa-play fa-lg" aria-hidden="true" aria-hidden="true"></i>
+                <span class="sr-only">Play</span>
+            </a>  
+          <a id="btnStop" href="#" class="button button-lg">
+                <i class="fas fa-pause fa-lg" aria-hidden="true" aria-hidden="true"></i>
+                <span class="sr-only">Pause</span>
+            </a>
+            
+        </ul><!--  buttons  -->
+        <div class="bar"></div><!--  bar  -->
+    </main>
+<!--
+    <section class="credit">
+        Inspired by <a href="https://dribbble.com/shots/9168665-Neumorphism-Music-App">Antonio Hristovski</a>'s Dribble layout.
+        Built by <a href="https://twitter.com/TutulDevs">Tutul</a>.
+    </section>
+-->
+
+<script src="https://kit.fontawesome.com/7d35781f0a.js" crossorigin="anonymous"></script> 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
+
+
         </p>
       </main>
 
@@ -48,8 +102,11 @@
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.jhen Bootstrap JS -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
 		<script src="https://dnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+		<script src="./js/app.js" crossorigin="anonymous"></script> 
 	</body>
 </html>
