@@ -98,7 +98,7 @@ body {
 .cover {
   padding: 0 1.5rem;
   height: calc(100% - 70px);
-  overflow: hidden;
+  overflow: auto;
 }
 .cover .btn-lg {
   padding: .75rem 1.25rem;
@@ -113,11 +113,35 @@ body {
   color: rgba(255, 255, 255, .5);
 }
 
-#myVideo {
+#myVideo, .static-background {
     position: fixed;
     right: 0;
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
     z-index: 0;
+}
+
+.static-background {
+	display: none;
+	padding: 476px;
+    	z-index: -1;
+    	background-size: contain;
+    	background-position: center;
+    	background-attachment: fixed;
+}
+
+@media only screen and (max-width: 600px) {
+	.cover-container {
+		width: 100%;
+	}
+
+	#myVideo, .art {
+		display: none;
+	}
+
+	.static-background {
+		display: block;
+		background-image: url(https://w0.peakpx.com/wallpaper/575/1018/HD-wallpaper-warning-biohazard-evil-red-sign.jpg);
+	}
 }
