@@ -1,0 +1,72 @@
+script.
+    // App.pug
+    import TestComponent from "./TestComponent.pug"
+    
+    let views = ["view1", "view2", "view3"]
+    var currentView = views[0]
+
+    const setView = (viewId) => currentView = viewId
+
+main
+    nav.navbar.navbar-inverse.navbar-fixed-top
+        .container
+            .navbar-header
+                button(
+                    type="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#navbar"
+                    aria-expanded="false"
+                    aria-controls="navbar"
+                )
+                    span.sr-only Toggle Navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a(
+                    class="navbar-brand"
+                ) StaPaWiSaSaPu
+                    small v0.1
+
+            #navbar.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li( class="{ currentView == 'view1' ? 'active' : ''}")
+                        a(href="#" "on:click|preventDefault"="{ setView.bind(this,'view1') }") Wiew #1 
+
+                    li( class="{ currentView == 'view2' ? 'active' : ''}")
+                        a(href="#" "on:click|preventDefault"="{ setView.bind(this,'view2') }") View #2
+                    
+                    li( class="{ currentView == 'view3' ? 'active' : ''}")
+                        a(href="#" "on:click|preventDefault"="{ setView.bind(this,'view3') }") View #3
+
+    .container
+        .starter-template
+            div(class="view-{currentView != 'view1' ? 'hidden' : 'block'}")
+                h1 View #1
+
+                TestComponent
+
+            div(class="view-{currentView != 'view2' ? 'hidden' : 'block'}")
+                h1 View #2
+
+            div(class="view-{currentView != 'view3' ? 'hidden' : 'block'}")
+                h1 View #3
+
+    footer.footer Made with &#9829; and :)s
+style.
+    .navbar-brand small {
+        font-size: 0.5em;
+        margin-left: 5px;
+    }
+
+    footer.footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .view-hidden {
+        display: none;
+    }
