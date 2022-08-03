@@ -1,72 +1,96 @@
 script.
     // App.pug
     import TestComponent from "./TestComponent.pug"
+    import {Util as U} from "./Util.js"
     
-    let views = ["view1", "view2", "view3"]
+    let views = ["navigation", "player", "song-history", "themes"]
+    let themes = ["default", "Poizon", "Depeche", "Nitzer", "Pink"]
+    
+
+    let arrow = "//"
+    let isPlayerOn = false
     var currentView = views[0]
+    let currentTheme = themes[0]
+    let nowPlaying = {}
+    let pastSongs = []
 
     const setView = (viewId) => currentView = viewId
+    const setTheme = (themeId) => currentTheme = themeId
 
-main
-    nav.navbar.navbar-inverse.navbar-fixed-top
-        .container
-            .navbar-header
-                button(
-                    type="button"
-                    class="navbar-toggle collapsed"
-                    data-toggle="collapse"
-                    data-target="#navbar"
-                    aria-expanded="false"
-                    aria-controls="navbar"
-                )
-                    span.sr-only Toggle Navigation
-                    span.icon-bar
-                    span.icon-bar
-                    span.icon-bar
-                a(
-                    class="navbar-brand"
-                ) StaPaWiSaSaPu
-                    small v0.1
+    const togglePlay = () => isPlayerOn = !isPlayerOn
 
-            #navbar.collapse.navbar-collapse
-                ul.nav.navbar-nav
-                    li( class="{ currentView == 'view1' ? 'active' : ''}")
-                        a(href="#" "on:click|preventDefault"="{ setView.bind(this,'view1') }") Wiew #1 
+    U.ServiceUtil.loadData("./data/data.json").then((data) => {
+        if(data && data[0]) {
+            nowPlaying = U.SongUtil.parseSong(data[0]["now_playing"])
+            pastSongs = data[0]["song_history"].map( el => U.SongUtil.parseSong(el))
+        }
+    })
 
-                    li( class="{ currentView == 'view2' ? 'active' : ''}")
-                        a(href="#" "on:click|preventDefault"="{ setView.bind(this,'view2') }") View #2
-                    
-                    li( class="{ currentView == 'view3' ? 'active' : ''}")
-                        a(href="#" "on:click|preventDefault"="{ setView.bind(this,'view3') }") View #3
+main.main(class="theme theme-{currentTheme}")
+    header.top(class="{isPlayerOn ? 'eq' : ''}")
+        nav.nav
+            i.material-symbols-outlined("on:click"="{function(){ setView('navigation')}}") menu
+        .song-info
+            section
+                p currently playing 
+                .song {nowPlaying.songTitle}
+                .band by 
+                    span.band-name {nowPlaying.bandName} /{nowPlaying.length}/
 
-    .container
-        .starter-template
-            div(class="view-{currentView != 'view1' ? 'hidden' : 'block'}")
-                h1 View #1
+        .search
+            i.material-symbols-outlined search
+    
+    section.view.view-navigation(style="display:{currentView=='navigation' ? 'block' : 'none'}")
+        ul.generic-list
+            li 
+                span.nav-item("on:click"="{function(){setView('player')}}")
+                    span.arrow {arrow} 
+                    span Player
+            
+            li 
+                span.nav-item 
+                    span.arrow  {arrow} 
+                    span Artists
+            
+            li 
+                span.nav-item("on:click"="{function(){setView('song-history')}}")
+                    span.arrow {arrow} 
+                    span Song History
 
-                TestComponent
+            li 
+                span.nav-item("on:click"="{function(){setView('themes')}}")
+                    span.arrow  {arrow} 
+                    span Themes
 
-            div(class="view-{currentView != 'view2' ? 'hidden' : 'block'}")
-                h1 View #2
+            li 
+                span.nav-item 
+                    span.arrow  {arrow} 
+                    span Contact
 
-            div(class="view-{currentView != 'view3' ? 'hidden' : 'block'}")
-                h1 View #3
+    section.view.view-player(style="display:{currentView=='player' ? 'block' : 'none'}")
+        .player
+            .vinyl(class="{isPlayerOn ? 'on' : 'off' }")
+                img(src="./img/only-gear-final.png" alt="I247")
+            
+            .actions 
+                i.material-symbols-outlined("on:click"="{togglePlay}" class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
 
-    footer.footer Made with &#9829; and :)s
-style.
-    .navbar-brand small {
-        font-size: 0.5em;
-        margin-left: 5px;
-    }
+    section.view.song-history(style="display:{currentView=='song-history' ? 'block' : 'none'}")
+        ul.generic-list
+            {#each pastSongs as song}
+              li
+                span.ordernum
+                    i.material-symbols-outlined.invert.small search
+                span.song-title {song.songTitle} by {song.bandName}
+                span.song-length {song.length}
 
-    footer.footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-    }
+    section.view.view-themes(style="display:{currentView=='themes' ? 'block' : 'none'}")
+        ul.generic-list
+            {#each themes as theme} 
+              li.theme 
+                span.nav-item("on:click"="{function(){setTheme(theme)}}")
+                    span.arrow(class="{currentTheme == theme ? 'active' : ''}") {arrow} 
+                    span {theme}
 
-    .view-hidden {
-        display: none;
-    }
+    footer.bottom
+        p Made with &#10084; and :)
