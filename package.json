@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "cp config/config.prod.js config/config.js && rollup -c",
+    "dev": "cp config/config.dev.js config/config.js && rollup -c -w",
     "start": "cross-env HOST=localhost sirv public --single --dev --port 5000"
   },
   "devDependencies": {

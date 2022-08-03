@@ -1,6 +1,7 @@
 script.
     // App.pug
     import TestComponent from "./TestComponent.pug"
+    import {Config as C} from "../config/config.js"
     import {Util as U} from "./Util.js"
     
     let views = ["navigation", "player", "song-history", "themes"]
@@ -19,7 +20,7 @@ script.
 
     const togglePlay = () => isPlayerOn = !isPlayerOn
 
-    U.ServiceUtil.loadData("./data/data.json").then((data) => {
+    U.ServiceUtil.loadData(C.dataSource.url).then((data) => {
         if(data && data[0]) {
             nowPlaying = U.SongUtil.parseSong(data[0]["now_playing"])
             pastSongs = data[0]["song_history"].map( el => U.SongUtil.parseSong(el))
