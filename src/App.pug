@@ -36,12 +36,18 @@ script.
         }
     }
 
-    U.ServiceUtil.loadData(C.dataSource.url).then((data) => {
-        if(data && data[0]) {
-            nowPlaying = U.SongUtil.parseSong(data[0]["now_playing"])
-            pastSongs = data[0]["song_history"].map( el => U.SongUtil.parseSong(el))
-        }
-    })
+    const loadSongInfo = () => {
+        U.ServiceUtil.loadData(C.dataSource.url).then((data) => {
+            if(data && data[0]) {
+                nowPlaying = U.SongUtil.parseSong(data[0]["now_playing"])
+                pastSongs = data[0]["song_history"].map( el => U.SongUtil.parseSong(el))
+            }
+        })
+    }
+
+    let intrvl = setInterval(loadSongInfo, 15000)
+
+    loadSongInfo()
 
 main.main(class="theme theme-{currentTheme}")
     audio#music(preload="all", "bind:this"={musicPlayerEl})
@@ -69,7 +75,8 @@ main.main(class="theme theme-{currentTheme}")
             li 
                 span.nav-item 
                     span.arrow  {arrow} 
-                    span Artists
+                    span 
+                        a(href="bit.ly/3BFRY8S" target="_blank") Artists
             
             li 
                 span.nav-item("on:click"="{function(){setView('song-history')}}")
@@ -84,7 +91,14 @@ main.main(class="theme theme-{currentTheme}")
             li 
                 span.nav-item 
                     span.arrow  {arrow} 
-                    span Contact
+                    span 
+                        a(href="https://www.youtube.com/c/Industrial247" target="_blank") Mixes
+
+            li 
+                span.nav-item 
+                    span.arrow  {arrow} 
+                    span 
+                        a(href="https://bit.ly/3BF8tlN" target="_blank") Contact
 
     section.view.view-player(style="display:{currentView=='player' ? 'block' : 'none'}")
         .player

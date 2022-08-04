@@ -291,6 +291,10 @@ header.top .search {
 	cursor: pointer;
 }
 
+.view ul.generic-list li .nav-item a {
+	color: white;
+}
+
 .view ul.generic-list li .nav-item .arrow {
 	font-weight: normal;
 	color: var(--secondary-text-color);

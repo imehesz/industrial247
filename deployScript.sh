@@ -16,7 +16,7 @@ elif [ $1 == "live" ]
         if [[ -z $2 ]]
             then
                 echo "Running dry-run"
-                rsync --dry-run -az --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh -p$PRODPORT" $SOURCEFOLDER $PRODUSER@$PRODSERVER:$PRODDESTINATION
+                rsync --dry-run -az --force --progress --exclude-from=rsync_exclude.txt -e "ssh -p$PRODPORT" $SOURCEFOLDER $PRODUSER@$PRODSERVER:$PRODDESTINATION
         elif [ $2 == "go" ]
             then
                 echo "Running actual deploy"
@@ -25,7 +25,7 @@ elif [ $1 == "live" ]
                 TIMESTAMP=`date +%s`
                 `sed -i "s/{{version}}/$TIMESTAMP/g" $INDEXFILE`
                 
-                rsync -az --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh -p$PRODPORT" $SOURCEFOLDER $PRODUSER@$PRODSERVER:$PRODDESTINATION
+                rsync -az --force --progress --exclude-from=rsync_exclude.txt -e "ssh -p$PRODPORT" $SOURCEFOLDER $PRODUSER@$PRODSERVER:$PRODDESTINATION
                 `git checkout $INDEXFILE`
         else
             echo $ERRORSTRING;
