@@ -1,24 +1,40 @@
 script.
     // App.pug
     import TestComponent from "./TestComponent.pug"
+
     import {Config as C} from "../config/config.js"
     import {Util as U} from "./Util.js"
     
     let views = ["navigation", "player", "song-history", "themes"]
-    let themes = ["default", "Poizon", "Depeche", "Nitzer", "Pink"]
+    let themes = ["default", "Poizon", "Depeche", "Nitzer", "Pink", "Cyber"]
     
-
     let arrow = "//"
     let isPlayerOn = false
-    var currentView = views[0]
+    var currentView = views[1]
     let currentTheme = themes[0]
     let nowPlaying = {}
     let pastSongs = []
 
+    let musicPlayerEl
+
     const setView = (viewId) => currentView = viewId
     const setTheme = (themeId) => currentTheme = themeId
 
-    const togglePlay = () => isPlayerOn = !isPlayerOn
+    const togglePlay = () => {
+        isPlayerOn = !isPlayerOn
+
+        if(isPlayerOn) {
+            musicPlayerEl.setAttribute("src", C.musicSource.url)
+            musicPlayerEl.load()
+            musicPlayerEl.play()
+        } else {
+            setTimeout(() => {
+            musicPlayerEl.pause()
+            musicPlayerEl.load()
+            //musicPlayerEl.attr("src", "") // Throws ERRORs
+            }, 500)
+        }
+    }
 
     U.ServiceUtil.loadData(C.dataSource.url).then((data) => {
         if(data && data[0]) {
@@ -28,6 +44,8 @@ script.
     })
 
 main.main(class="theme theme-{currentTheme}")
+    audio#music(preload="all", "bind:this"={musicPlayerEl})
+
     header.top(class="{isPlayerOn ? 'eq' : ''}")
         nav.nav
             i.material-symbols-outlined("on:click"="{function(){ setView('navigation')}}") menu
