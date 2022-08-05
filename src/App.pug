@@ -18,7 +18,6 @@ script.
     let musicPlayerEl
 
     $: songByBand = nowPlaying.songTitle + " by " + nowPlaying.bandName
-    $: U.StringUtil.titleScroller( songByBand + " on Industrial247station.com :// ")
 
     const setView = (viewId) => currentView = viewId
     const setTheme = (themeId) => currentTheme = themeId
@@ -48,9 +47,23 @@ script.
         })
     }
 
-    let intrvl = setInterval(loadSongInfo, 15000)
+    const titleDisplay = () => {
+        setTimeout(() => {
+            document.title = "Now playing: " + nowPlaying.songTitle
+            setTimeout(() => {
+                document.title = "by " + nowPlaying.bandName
+                setTimeout(() => {
+                    document.title = " on Industrial247station.com"
+                }, 4000)
+            }, 5000)
+        }, 5000)
+    }
+
+    let intrvl  = setInterval(loadSongInfo, 15000)
+    let intrvl2 = setInterval(titleDisplay, 15000)
 
     loadSongInfo()
+    titleDisplay()
 
 main.main(class="theme theme-{currentTheme}")
     audio#music(preload="all", "bind:this"={musicPlayerEl})
