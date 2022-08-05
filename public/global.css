@@ -334,6 +334,7 @@ header.top .search {
     background-position: center;
 	box-shadow: 0px 0px 20px cyan;
 	margin: 50px 0;
+	overflow: hidden;
 }
 
 .view.view-player .vinyl {

@@ -17,6 +17,8 @@ script.
 
     let musicPlayerEl
 
+    $: songByBand = nowPlaying.songTitle + " by " + nowPlaying.bandName
+
     const setView = (viewId) => currentView = viewId
     const setTheme = (themeId) => currentTheme = themeId
 
@@ -63,7 +65,11 @@ main.main(class="theme theme-{currentTheme}")
                     span.band-name {nowPlaying.bandName} /{nowPlaying.length}/
 
         .search
-            i.material-symbols-outlined search
+            a(
+              href="https://www.google.com/search?q={songByBand}" 
+              target="_blank" 
+              title="Searching for {songByBand}")
+                i.material-symbols-outlined search
     
     section.view.view-navigation(style="display:{currentView=='navigation' ? 'block' : 'none'}")
         ul.generic-list
@@ -76,7 +82,7 @@ main.main(class="theme theme-{currentTheme}")
                 span.nav-item 
                     span.arrow  {arrow} 
                     span 
-                        a(href="bit.ly/3BFRY8S" target="_blank") Artists
+                        a(href="https://bit.ly/3BFRY8S" target="_blank") Artists
             
             li 
                 span.nav-item("on:click"="{function(){setView('song-history')}}")
@@ -113,7 +119,11 @@ main.main(class="theme theme-{currentTheme}")
             {#each pastSongs as song}
               li
                 span.ordernum
-                    i.material-symbols-outlined.invert.small search
+                    a(
+                      href="https://www.google.com/search?q={song.songTitle} by {song.bandName}"
+                      target="_blank"
+                      title="Searching for {song.songTitle} by {song.bandName}")
+                        i.material-symbols-outlined.invert.small search
                 span.song-title {song.songTitle} by {song.bandName}
                 span.song-length {song.length}
 
