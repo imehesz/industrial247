@@ -134,7 +134,7 @@ main.main(class="theme theme-{currentTheme}")
                 i.material-symbols-outlined("on:click"="{togglePlay}" class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
 
     section.view.view-player(style="display:{currentView=='mini-player' ? 'block' : 'none'}")
-        .mini-player
+        #mini-player.mini-player
             .actions 
                 i.material-symbols-outlined("on:click"="{togglePlay}" class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
 
