@@ -29,7 +29,15 @@ export const Util = {
             let seconds = time - minutes * 60
 
             return `${minutes}:${Util.StringUtil.padLeft(seconds, "0", 2)}`
-        }    
+        },
+
+        titleScroller: (text) => {
+            document.title = text
+            
+            setTimeout(function () {
+                Util.StringUtil.titleScroller(text.substr(1) + text.substr(0, 1));
+            }, 500)
+        }
     },
 
     ServiceUtil: {

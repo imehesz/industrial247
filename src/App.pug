@@ -18,6 +18,7 @@ script.
     let musicPlayerEl
 
     $: songByBand = nowPlaying.songTitle + " by " + nowPlaying.bandName
+    $: U.StringUtil.titleScroller( songByBand + " on Industrial247station.com :// ")
 
     const setView = (viewId) => currentView = viewId
     const setTheme = (themeId) => currentTheme = themeId
