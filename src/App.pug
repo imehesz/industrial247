@@ -5,7 +5,7 @@ script.
     import {Config as C} from "../config/config.js"
     import {Util as U} from "./Util.js"
     
-    let views = ["navigation", "player", "song-history", "themes"]
+    let views = ["navigation", "player", "mini-player", "song-history", "themes"]
     let themes = ["default", "Poizon", "Depeche", "Nitzer", "Pink", "Cyber"]
     
     let arrow = "//"
@@ -77,7 +77,12 @@ main.main(class="theme theme-{currentTheme}")
                 span.nav-item("on:click"="{function(){setView('player')}}")
                     span.arrow {arrow} 
                     span Player
-            
+
+            li 
+                span.nav-item("on:click"="{function(){setView('mini-player')}}")
+                    span.arrow {arrow} 
+                    span Mini Player
+
             li 
                 span.nav-item 
                     span.arrow  {arrow} 
@@ -113,6 +118,12 @@ main.main(class="theme theme-{currentTheme}")
             
             .actions 
                 i.material-symbols-outlined("on:click"="{togglePlay}" class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
+
+    section.view.view-player(style="display:{currentView=='mini-player' ? 'block' : 'none'}")
+        .mini-player
+            .actions 
+                i.material-symbols-outlined("on:click"="{togglePlay}" class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
+
 
     section.view.song-history(style="display:{currentView=='song-history' ? 'block' : 'none'}")
         ul.generic-list

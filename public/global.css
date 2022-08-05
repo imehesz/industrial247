@@ -135,6 +135,7 @@ body, html {
 
 	--primary-text-color: #fff;
 	--secondary-text-color: #777;
+	--light-gray-color: #aaa;
 }
 
 i.material-symbols-outlined.small {
@@ -227,7 +228,7 @@ header.top .song-info p {
 	font-size: 0.75em;
 	text-transform: uppercase;
 	letter-spacing: 1px;
-	color: var(--secondary-text-color);
+	color: var(--light-gray-color);
 }
 
 header.top .song-info .song {
@@ -238,7 +239,7 @@ header.top .song-info .song {
 header.top .song-info .band {
 	font-size: 0.75em;
 	letter-spacing: 1px;
-	color: var(--secondary-text-color);
+	color: var(--light-gray-color);
 }
 
 header.top .song-info .band .band-name {
@@ -319,7 +320,8 @@ header.top .search {
 	height: calc(100vh - 104px);
 }
 
-.view.view-player .player {
+.view.view-player .player,
+.view.view-player .mini-player {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -335,6 +337,13 @@ header.top .search {
 	box-shadow: 0px 0px 20px cyan;
 	margin: 50px 0;
 	overflow: hidden;
+}
+
+.view.view-player .mini-player {
+	width: 150px;
+    margin: 0 auto;
+    margin-top: 50px;
+    height: 150px;
 }
 
 .view.view-player .vinyl {
