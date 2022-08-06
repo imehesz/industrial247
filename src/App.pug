@@ -65,6 +65,10 @@ script.
     loadSongInfo()
     titleDisplay()
 
+    setTimeout(() => {
+        jQuery("#mini-player").draggable({containment: "parent"})
+    }, 0)
+
 main.main(class="theme theme-{currentTheme}")
     audio#music(preload="all", "bind:this"={musicPlayerEl})
 

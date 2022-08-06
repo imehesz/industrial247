@@ -340,10 +340,11 @@ header.top .search {
 }
 
 .view.view-player .mini-player {
+	margin: 0;
 	width: 150px;
-    margin: 0 auto;
-    margin-top: 50px;
     height: 150px;
+	position: absolute;
+	cursor: move;
 }
 
 .view.view-player .vinyl {
