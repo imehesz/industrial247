@@ -16,6 +16,10 @@ script.
     let pastSongs = []
 
     let musicPlayerEl
+    
+    let mpo
+    let mpm
+    let mp
 
     $: songByBand = nowPlaying.songTitle + " by " + nowPlaying.bandName
 
@@ -59,6 +63,11 @@ script.
         }, 5000)
     }
 
+    const resetMover = () => {
+        let posObj = mp.position()
+        mpm.css({top: (posObj.top + 115) + "px", left: (posObj.left + 115) + "px"})
+    }
+
     let intrvl  = setInterval(loadSongInfo, 15000)
     let intrvl2 = setInterval(titleDisplay, 15000)
 
@@ -66,7 +75,26 @@ script.
     titleDisplay()
 
     setTimeout(() => {
-        jQuery("#mini-player").draggable({containment: "parent"})
+        mpo = jQuery("#mini-player-dashed-outline")
+        mpm = jQuery(".mini-player-mover")
+        mp = jQuery("#mini-player")
+
+        mpm.draggable({
+            containment: "parent",
+            start: (e) => {
+                mpo.show()
+            },
+            stop: (e) => {
+                let posObj = mpo.position()
+                mp.css({top: posObj.top + "px", left: posObj.left + "px"})
+                mpo.hide()
+                resetMover()
+            },
+            drag: (e) => {
+                let posObj = mpm.position()
+                mpo.css({top: (posObj.top - 115) + "px", left: (posObj.left - 115) + "px"})
+            }
+        })
     }, 0)
 
 main.main(class="theme theme-{currentTheme}")
@@ -141,6 +169,9 @@ main.main(class="theme theme-{currentTheme}")
         #mini-player.mini-player("on:click"="{togglePlay}")
             .actions 
                 i.material-symbols-outlined(class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
+        #mini-player-dashed-outline.mini-player-dashed-outline
+        .mini-player-mover
+            i.material-symbols-outlined open_with
 
     section.view.song-history(style="display:{currentView=='song-history' ? 'block' : 'none'}")
         ul.generic-list
