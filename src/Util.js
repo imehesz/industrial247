@@ -61,6 +61,15 @@ export const Util = {
         setMainWord: word => $mainWord = word,
     },
 
+    StorageUtil: {
+        _defaultAppSettings: () => {
+            return {
+                theme: "default"
+            }
+        },
+
+        update: (key, valObj) => localStorage.setItem(key, JSON.stringify(valObj))
+    },
     SongUtil: {
         /**
          * @param raw info from stream service

@@ -8,5 +8,8 @@
     },
     musicSource: {
         url: "URL/PATH/TO/MUSIC"
+    },
+    localStorageSettings: {
+        key: "SOME_KEY"
     }
  }

@@ -15,16 +15,26 @@ script.
     let nowPlaying = {}
     let pastSongs = []
 
+    // Application Settings (will be loaded from loc storage)
+    let appSettings
+
     let musicPlayerEl
     
-    let mpo
-    let mpm
-    let mp
+    // Mini Player Variables 
+    let mpo // mini-player-outline
+    let mpm // mini-player-mover
+    let mp  // mini-player
+    
 
     $: songByBand = nowPlaying.songTitle + " by " + nowPlaying.bandName
 
     const setView = (viewId) => currentView = viewId
-    const setTheme = (themeId) => currentTheme = themeId
+    const setTheme = (themeId) => {
+        currentTheme = themeId
+
+        appSettings.theme = currentTheme 
+        U.StorageUtil.update(C.localStorageSettings.key, appSettings)
+    }
 
     const togglePlay = () => {
         isPlayerOn = !isPlayerOn
@@ -53,7 +63,7 @@ script.
 
     const titleDisplay = () => {
         setTimeout(() => {
-            document.title = "Now playing: " + nowPlaying.songTitle
+            document.title = "|> " + nowPlaying.songTitle
             setTimeout(() => {
                 document.title = "by " + nowPlaying.bandName
                 setTimeout(() => {
@@ -63,6 +73,7 @@ script.
         }, 5000)
     }
 
+    // setting the position of the mover icon where it should be
     const resetMover = () => {
         let posObj = mp.position()
         mpm.css({top: (posObj.top + 115) + "px", left: (posObj.left + 115) + "px"})
@@ -96,6 +107,15 @@ script.
             }
         })
     }, 0)
+
+    // getting theme from local storage
+    appSettings = JSON.parse(localStorage.getItem(C.localStorageSettings.key))
+    if(!appSettings) {
+        appSettings = U.StorageUtil._defaultAppSettings()
+        U.StorageUtil.update(C.localStorageSettings.key, appSettings)
+    } else {
+        currentTheme = themes.indexOf(appSettings.theme) > -1 ? appSettings.theme : "default"
+    }
 
 main.main(class="theme theme-{currentTheme}")
     audio#music(preload="all", "bind:this"={musicPlayerEl})
