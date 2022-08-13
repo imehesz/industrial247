@@ -1,0 +1,28 @@
+.theme {
+    background-position: center;
+    background-size: cover;
+}
+
+.theme.theme-default {
+    background-image: url(https://i.imgur.com/OhYPBLc.jpeg);
+}
+
+.theme.theme-Nitzer {
+    background-image: url(https://i.imgur.com/Oaqsgms.jpeg);
+}
+
+.theme.theme-Depeche {
+    background-image: url(https://i.imgur.com/YgOCZ9T.jpeg);
+}
+
+.theme.theme-Pink {
+    background-image: url(https://i.imgur.com/sUNy2oU.jpeg);
+}
+
+.theme.theme-Poizon {
+    background-image: url(https://i.imgur.com/OI0EMMd.jpeg);
+}
+
+.theme.theme-Cyber {
+    background-image: url(https://i.imgur.com/z3dfx2r.jpeg);
+}

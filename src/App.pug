@@ -1,0 +1,218 @@
+script.
+    // App.pug
+    import TestComponent from "./TestComponent.pug"
+
+    import {Config as C} from "../config/config.js"
+    import {Util as U} from "./Util.js"
+    
+    let views = ["navigation", "player", "mini-player", "song-history", "themes"]
+    let themes = ["default", "Poizon", "Depeche", "Nitzer", "Pink", "Cyber"]
+    
+    let arrow = "//"
+    let isPlayerOn = false
+    var currentView = views[1]
+    let currentTheme = themes[0]
+    let nowPlaying = {}
+    let pastSongs = []
+
+    // Application Settings (will be loaded from loc storage)
+    let appSettings
+
+    let musicPlayerEl
+    
+    // Mini Player Variables 
+    let mpo // mini-player-outline
+    let mpm // mini-player-mover
+    let mp  // mini-player
+    
+
+    $: songByBand = nowPlaying.songTitle + " by " + nowPlaying.bandName
+
+    const setView = (viewId) => currentView = viewId
+    const setTheme = (themeId) => {
+        currentTheme = themeId
+
+        appSettings.theme = currentTheme 
+        U.StorageUtil.update(C.localStorageSettings.key, appSettings)
+    }
+
+    const togglePlay = () => {
+        isPlayerOn = !isPlayerOn
+
+        if(isPlayerOn) {
+            musicPlayerEl.setAttribute("src", C.musicSource.url)
+            musicPlayerEl.load()
+            musicPlayerEl.play()
+        } else {
+            setTimeout(() => {
+            musicPlayerEl.pause()
+            musicPlayerEl.load()
+            //musicPlayerEl.attr("src", "") // Throws ERRORs
+            }, 500)
+        }
+    }
+
+    const loadSongInfo = () => {
+        U.ServiceUtil.loadData(C.dataSource.url).then((data) => {
+            if(data && data[0]) {
+                nowPlaying = U.SongUtil.parseSong(data[0]["now_playing"])
+                pastSongs = data[0]["song_history"].map( el => U.SongUtil.parseSong(el))
+            }
+        })
+    }
+
+    const titleDisplay = () => {
+        setTimeout(() => {
+            document.title = "|> " + nowPlaying.songTitle
+            setTimeout(() => {
+                document.title = "by " + nowPlaying.bandName
+                setTimeout(() => {
+                    document.title = " on Industrial247station.com"
+                }, 4000)
+            }, 5000)
+        }, 5000)
+    }
+
+    // setting the position of the mover icon where it should be
+    const resetMover = () => {
+        let posObj = mp.position()
+        mpm.css({top: (posObj.top + 115) + "px", left: (posObj.left + 115) + "px"})
+    }
+
+    let intrvl  = setInterval(loadSongInfo, 15000)
+    let intrvl2 = setInterval(titleDisplay, 15000)
+
+    loadSongInfo()
+    titleDisplay()
+
+    setTimeout(() => {
+        mpo = jQuery("#mini-player-dashed-outline")
+        mpm = jQuery(".mini-player-mover")
+        mp = jQuery("#mini-player")
+
+        mpm.draggable({
+            containment: "parent",
+            start: (e) => {
+                mpo.show()
+            },
+            stop: (e) => {
+                let posObj = mpo.position()
+                mp.css({top: posObj.top + "px", left: posObj.left + "px"})
+                mpo.hide()
+                resetMover()
+            },
+            drag: (e) => {
+                let posObj = mpm.position()
+                mpo.css({top: (posObj.top - 115) + "px", left: (posObj.left - 115) + "px"})
+            }
+        })
+    }, 0)
+
+    // getting theme from local storage
+    appSettings = JSON.parse(localStorage.getItem(C.localStorageSettings.key))
+    if(!appSettings) {
+        appSettings = U.StorageUtil._defaultAppSettings()
+        U.StorageUtil.update(C.localStorageSettings.key, appSettings)
+    } else {
+        currentTheme = themes.indexOf(appSettings.theme) > -1 ? appSettings.theme : "default"
+    }
+
+main.main(class="theme theme-{currentTheme}")
+    audio#music(preload="all", "bind:this"={musicPlayerEl})
+
+    header.top(class="{isPlayerOn ? 'eq' : ''}")
+        nav.nav
+            i.material-symbols-outlined("on:click"="{function(){ setView('navigation')}}") menu
+        .song-info
+            section
+                p currently playing 
+                .song {nowPlaying.songTitle}
+                .band by 
+                    span.band-name {nowPlaying.bandName} /{nowPlaying.length}/
+
+        .search
+            a(
+              href="https://www.google.com/search?q={songByBand}" 
+              target="_blank" 
+              title="Searching for {songByBand}")
+                i.material-symbols-outlined search
+    
+    section.view.view-navigation(style="display:{currentView=='navigation' ? 'block' : 'none'}")
+        ul.generic-list
+            li 
+                span.nav-item("on:click"="{function(){setView('player')}}")
+                    span.arrow {arrow} 
+                    span Player
+
+            li 
+                span.nav-item("on:click"="{function(){setView('mini-player')}}")
+                    span.arrow {arrow} 
+                    span Mini Player
+
+            li 
+                span.nav-item 
+                    span.arrow  {arrow} 
+                    span 
+                        a(href="https://bit.ly/3BFRY8S" target="_blank") Artists
+            
+            li 
+                span.nav-item("on:click"="{function(){setView('song-history')}}")
+                    span.arrow {arrow} 
+                    span Song History
+
+            li 
+                span.nav-item("on:click"="{function(){setView('themes')}}")
+                    span.arrow  {arrow} 
+                    span Themes
+
+            li 
+                span.nav-item 
+                    span.arrow  {arrow} 
+                    span 
+                        a(href="https://www.youtube.com/c/Industrial247" target="_blank") Mixes
+
+            li 
+                span.nav-item 
+                    span.arrow  {arrow} 
+                    span 
+                        a(href="https://bit.ly/3BF8tlN" target="_blank") Contact
+
+    section.view.view-player(style="display:{currentView=='player' ? 'block' : 'none'}")
+        .player
+            .vinyl(class="{isPlayerOn ? 'on' : 'off' }")
+                img(src="./img/only-gear-final.png" alt="I247")
+            
+            .actions 
+                i.material-symbols-outlined("on:click"="{togglePlay}" class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
+
+    section.view.view-player(style="display:{currentView=='mini-player' ? 'block' : 'none'}")
+        #mini-player.mini-player("on:click"="{togglePlay}")
+            .actions 
+                i.material-symbols-outlined(class="{isPlayerOn ? 'pause_circle' : 'play_circle'}") {isPlayerOn ? 'pause_circle' : 'play_circle'}
+        #mini-player-dashed-outline.mini-player-dashed-outline
+        .mini-player-mover
+            i.material-symbols-outlined open_with
+
+    section.view.song-history(style="display:{currentView=='song-history' ? 'block' : 'none'}")
+        ul.generic-list
+            {#each pastSongs as song}
+              li
+                span.ordernum
+                    a(
+                      href="https://www.google.com/search?q={song.songTitle} by {song.bandName}"
+                      target="_blank"
+                      title="Searching for {song.songTitle} by {song.bandName}")
+                        i.material-symbols-outlined.invert.small search
+                span.song-title {song.songTitle} by {song.bandName}
+                span.song-length {song.length}
+
+    section.view.view-themes(style="display:{currentView=='themes' ? 'block' : 'none'}")
+        ul.generic-list
+            {#each themes as theme} 
+              li.theme 
+                span.nav-item("on:click"="{function(){setTheme(theme)}}")
+                    span.arrow(class="{currentTheme == theme ? 'active' : ''}") {arrow} 
+                    span {theme}
+
+    footer.bottom
+        p Made with &#10084; and :)
